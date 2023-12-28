@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <!--fontawesom kit-->
+    <script src="https://kit.fontawesome.com/e2cdfb9219.js" crossorigin="anonymous"></script>
+    <title>Music player</title>
+</head>
+<body>
+    <div class="container">
+        <div class="music-player">
+            <nav>
+                <div class="circle">
+                    <i class="fa-solid fa-angle-left"></i>
+                </div><div class="circle">
+                    <i class="fa-solid fa-bars"></i>
+                </div>
+            </nav>
+            <img src="Untitled design.jpg" class="song-img"  alt="a man singing">
+            <h1>Song name</h1>
+            <p>singer.album</p>
+            
+           <!--adding the audio-->
+            <audio id="song">
+                <!-- to add the default controller use===
+                ===<audio controls id="song">==-->
+        
+                <source src="videoplayback.m4a" type="audio/mpeg">
+            </audio>
+            <!--create the progress bar for the song-->
+            <input type="range" value="0" id="progress">
+            <div class="controls">
+                <div><i class="fa-solid fa-backward"></i></div>
+                <div onclick="playPause()"><i class="fa-solid fa-play" id="ctrlIcon"></i></div>
+                <div><i class="fa-solid fa-forward"></i></div>   
+            </div>
+        </div>
+    </div>
+    <script>
+
+        let progress=document.getElementById("progress");
+        let song=document.getElementById("song");
+        let ctrlIcon=document.getElementById("ctrlIcon");
+
+        song.onloadedmetadata=function(){
+            progress.max=song.duration;
+            progress.value=song.currentTime;
+        }
+
+        function playPause(){
+            if(ctrlIcon.classList.contains("fa-pause")){
+                song.pause();
+                //when paused this shows the play icon
+                ctrlIcon.classList.remove("fa-pause");
+                ctrlIcon.classList.add("fa-play");
+            }
+            else{
+                song.play();
+                //when playing this shows the pause icon, when hit pause this should pause the song
+                ctrlIcon.classList.add("fa-pause");
+                ctrlIcon.classList.remove("fa-play");
+            }
+        }
+        //update the progress
+        if(song.play()){
+            setInterval(()=>{
+                progress.value=song.currentTime
+            },500);
+        }
+
+        // the random positions on the progress bar
+        progress.onchange= function(){
+            song.play();
+            song.currentTime=progress.value
+            //icon 
+            ctrlIcon.classList.add("fa-pause");
+            ctrlIcon.classList.remove("fa-play");
+            // when the song is playing this will remove the pause icon and replace play icon
+        }
+
+
+    </script>
+
+ 
+    
+</body>
+</html>
